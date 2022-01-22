@@ -1,0 +1,9 @@
+apiVersion: elan.k8s.io/v1
+kind: CronTab
+metadata:
+  name: example
+spec:
+  deploymentName: example
+  replicas: 4
+  image: nginx
+  command: "/bin/sleep 3600"
