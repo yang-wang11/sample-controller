@@ -40,10 +40,10 @@ type CronTab struct {
 
 // CronSpec is the spec for a CronTab resource
 type CronSpec struct {
-	DeploymentName  string `json:"deploymentName"`
-	Replicas        *int32 `json:"replicas"`
-	Image           string `json:"image"`
-	Command         string `json:"command"`
+	DeploymentName string `json:"deploymentName"`
+	Replicas       *int32 `json:"replicas"`
+	Image          string `json:"image"`
+	Command        string `json:"command"`
 }
 
 // CronStatus is the status for a CronTab resource

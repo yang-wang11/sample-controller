@@ -284,7 +284,7 @@ func (c *Controller) syncHandler(key string) error {
 
 	if deployment != nil && deployment.Name == crontab.Spec.DeploymentName {
 		if deployment.Spec.Template.Spec.Containers[0].Image != crontab.Spec.Image ||
-				*deployment.Spec.Replicas != *crontab.Spec.Replicas {
+			*deployment.Spec.Replicas != *crontab.Spec.Replicas {
 			klog.Infof("delete the old version of deployment")
 			klog.Infof("cron %d %s %s", *crontab.Spec.Replicas, crontab.Spec.Image, crontab.Spec.Command)
 			klog.Infof("deployment %d %s %s", *deployment.Spec.Replicas,
@@ -349,7 +349,7 @@ func (c *Controller) updateCronTabStatus(crontab *elanapiv1.CronTab, deployment 
 	instance.Status.AvailableReplicas = &deployment.Status.AvailableReplicas
 
 	if instance.Status.Phase == "" || deployment == nil ||
-			*crontab.Spec.Replicas != deployment.Status.AvailableReplicas {
+		*crontab.Spec.Replicas != deployment.Status.AvailableReplicas {
 		instance.Status.Phase = elanapiv1.PhasePending
 	}
 
@@ -466,10 +466,10 @@ func newDeployment(crontab *elanapiv1.CronTab) *appsv1.Deployment {
 				Spec: corev1.PodSpec{
 					Containers: []corev1.Container{
 						{
-							Name:  crontab.Name,
-							Image: crontab.Spec.Image,
-							Command: strings.Split(crontab.Spec.Command, " "),
-							ImagePullPolicy:  "IfNotPresent",
+							Name:            crontab.Name,
+							Image:           crontab.Spec.Image,
+							Command:         strings.Split(crontab.Spec.Command, " "),
+							ImagePullPolicy: "IfNotPresent",
 						},
 					},
 				},

@@ -18,6 +18,8 @@ package main
 
 import (
 	"flag"
+	"k8s.io/client-go/rest"
+	"os"
 	"time"
 
 	clientset "crontab/pkg/generated/clientset/versioned"
@@ -35,15 +37,26 @@ var (
 )
 
 func main() {
+
+	var cfg *rest.Config
+	var err error
+
 	klog.InitFlags(nil)
 	flag.Parse()
 
 	// set up signals so we handle the first shutdown signal gracefully
 	stopCh := signals.SetupSignalHandler()
 
-	cfg, err := clientcmd.BuildConfigFromFlags(masterURL, kubeconfig)
-	if err != nil {
-		klog.Fatalf("Error building kubeconfig: %s", err.Error())
+	if os.Getenv("INTERNAL_USAGE") == "True" {
+		cfg, err = rest.InClusterConfig()
+		if err != nil {
+			klog.Fatalf("Error reading config from cluster: %s", err.Error())
+		}
+	} else {
+		cfg, err = clientcmd.BuildConfigFromFlags(masterURL, kubeconfig)
+		if err != nil {
+			klog.Fatalf("Error building kubeconfig: %s", err.Error())
+		}
 	}
 
 	kubeClient, err := kubernetes.NewForConfig(cfg)

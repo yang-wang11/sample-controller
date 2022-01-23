@@ -1,0 +1,16 @@
+##
+## Configuration settings that directly affect the crontab deployment YAML.
+##
+
+## Common settings
+
+namespace: default
+
+## Deployment
+
+image:
+  repository: elan01/crontab
+  tag: latest
+  pullPolicy: Always
+
+replicas: 1

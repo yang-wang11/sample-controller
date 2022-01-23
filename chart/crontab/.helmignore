@@ -1,0 +1,10 @@
+# OS
+.DS_Store
+
+# Backup files
+*.swp
+*.bak
+*.tmp
+
+# IDEs
+.idea/

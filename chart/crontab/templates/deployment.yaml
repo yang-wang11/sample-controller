@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "crontab.name" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+{{ include "crontab.label_base" . | indent 4 }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+{{ include "crontab.label_base" . | indent 6 }}
+  template:
+    metadata:
+      name: {{ include "crontab.name" . }}
+      labels:
+{{ include "crontab.label_base" . | indent 8 }}
+    spec:
+      restartPolicy: Always
+      serviceAccountName: {{ include "crontab.name" . }}
+      enableServiceLinks: false
+      containers:
+        - name: {{ include "crontab.name" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            runAsUser: 1001
+            readOnlyRootFilesystem: true
+          env:
+            - name: INTERNAL_USAGE
+              value: "True"
+

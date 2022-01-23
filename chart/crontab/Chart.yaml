@@ -1,0 +1,9 @@
+apiVersion: v1
+description: A Helm chart for Crontab controller
+name: crontab
+version: "2.26.2"
+sources:
+- https://github.wdf.sap.corp/i321482/crontabController
+maintainers:
+  - name: i321482
+    email: yang.wang11@sap.com
